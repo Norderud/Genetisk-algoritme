@@ -10,10 +10,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import no.asmund.genetisk.Obstacle;
 
 public class StartApp extends Application {
-    private final int HEIGHT = 600;
-    private final int WIDTH = 1200;
+    public static final int HEIGHT = 600;
+    public static final int WIDTH = 1200;
     public static int lifetime;
     private int lifecycle;
     public static int popNr;
@@ -21,6 +24,7 @@ public class StartApp extends Application {
     private Timeline loop;
     private Population population;
     public static int targetX, targetY;
+    public static List<Obstacle> obstacles = new ArrayList<>();
 
     @Override
     public void start(Stage primaryStage) {
@@ -30,6 +34,8 @@ public class StartApp extends Application {
 
         targetX = 1000;
         targetY = HEIGHT/2;
+
+        obstacles.add(new Obstacle(WIDTH/2 - 50, HEIGHT/2 - 20, 100, 40));
 
         StackPane root = new StackPane();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
@@ -65,6 +71,11 @@ public class StartApp extends Application {
 //        gc.clearRect(0, 0, WIDTH, HEIGHT);
         gc.setFill(Color.RED);
         gc.fillRect(targetX - 5, targetY - 5, 10, 10);
+
+        for (Obstacle o : obstacles) {
+            o.draw(gc);
+        }
+
         gc.setFill(Color.BLACK);
         for (int i = 0; i < popNr; i++) {
             Creature r = population.population[i];

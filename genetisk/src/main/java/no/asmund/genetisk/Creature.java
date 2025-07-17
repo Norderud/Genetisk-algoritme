@@ -2,6 +2,8 @@ package no.asmund.genetisk;
 
 import javafx.scene.paint.Color;
 
+import no.asmund.genetisk.Obstacle;
+
 import static java.lang.Math.sqrt;
 
 public class Creature {
@@ -54,8 +56,31 @@ public class Creature {
     }
 
     void update() {
-        x = x + (float) ((Math.cos(Math.toRadians(angle)) * 2));
-        y = y + (float) ((Math.sin(Math.toRadians(angle)) * 2));
+        float dx = (float) ((Math.cos(Math.toRadians(angle)) * 2));
+        float dy = (float) ((Math.sin(Math.toRadians(angle)) * 2));
+
+        // Bounce when hitting canvas edges
+        if (x + dx < 0 || x + dx > StartApp.WIDTH) {
+            angle = 180 - angle;
+            dx = -dx;
+        }
+        if (y + dy < 0 || y + dy > StartApp.HEIGHT) {
+            angle = -angle;
+            dy = -dy;
+        }
+
+        // Test collision with obstacles
+        for (Obstacle o : StartApp.obstacles) {
+            if (o.collides(x + dx, y + dy)) {
+                angle = angle + 180;
+                dx = -dx;
+                dy = -dy;
+                break;
+            }
+        }
+
+        x += dx;
+        y += dy;
         angle += dna.genes[geneCounter];
     }
 }
