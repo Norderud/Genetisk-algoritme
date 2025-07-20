@@ -163,7 +163,7 @@ public class Population extends AbstractSimulationSubject {
      * @return The population array
      */
     public GeneticEntity[] getPopulation() {
-        return population;
+        return population.clone();
     }
     
     /**

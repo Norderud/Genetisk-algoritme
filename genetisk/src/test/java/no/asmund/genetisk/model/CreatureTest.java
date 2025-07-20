@@ -30,7 +30,7 @@ class CreatureTest {
         // Create a DNA with predictable genes
         float[] genes = new float[100];
         for (int i = 0; i < genes.length; i++) {
-            genes[i] = 0; // No angle changes
+            genes[i] = 1; // No angle changes
         }
         dna = new DNA(genes);
         
